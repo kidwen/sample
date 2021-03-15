@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    function Person(name, no) {
+        this.name = name;
+        this.no = no;
+        console.log(this);
+    }
+    // Person.prototype.toString = () => {
+    //     return this.name;
+    // }
+    // Person.prototype.toString = function personToString() {
+    //     return this.name;
+    // }
+    Person.prototype.toString = function () {
+        return this.name;
+    }
+
+    var originPerson = new Person('aa', 'aa');
+
+    function logName(person) {
+        let name = 'name:' + person;
+        console.log(name);
+    }
+
+    this.logName(originPerson);
+
+</script>
+
+<script>
+    function check(a, b) {
+        if (!a || !b || a.length < b.length) {
+            return false;
+        }
+        for (let i = 0; i <= b.length - 1; i++) {
+            if (a.indexOf(b[i]) == -1) {
+                return false;
+            }
+            check(a.slice(a.indexOf(b[i]), a.length - 1), b.slice(i, b.length - 1));
+        }
+        return true;
+    }
+
+    console.log(check("aeebffcss", "abc"));
+
+</script>
+
+<script>
+    function check2(a, b) {
+        // let start = 
+        if (!a || !b || a.length < b.length) {
+            return false;
+        }
+        let arr = Array.from(b);
+        while (arr.length) {
+            let index = a.indexOf(arr[0]);
+            if (index == -1) {
+                return false;
+            }
+            a = a.slice(index, a.length);
+            arr.shift();
+        }
+        return true;
+    }
+
+</script>
+
+</html>
