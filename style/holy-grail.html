@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holy Grail</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-size: 14px;
+        }
+
+        #hd,
+        #ft {
+            padding: 20px 3px;
+            background-color: #cccccc;
+            text-align: center;
+        }
+
+        .bd-lft,
+        .bd-rgt,
+        .bd-3-lr,
+        .bd-3-ll,
+        .bd-3-rr {
+            margin: 10px 0;
+            min-width: 400px;
+        }
+
+        .main {
+            background-color: #03a9f4;
+            color: #ffffff;
+        }
+
+        .aside,
+        .aside-1,
+        .aside-2 {
+            background-color: #00bcd4;
+            color: #ffffff;
+        }
+
+        p {
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .bd-left {
+            zoom: 1;
+            overflow: hidden;
+            padding-left: 210px;
+        }
+
+        .bd-left .aside {
+            float: left;
+            width: 200px;
+            position: relative;
+            left: -210px;
+            margin-left: -100%;
+        }
+
+        .bd-left .main {
+            float: left;
+            width: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="hd">头部</div>
+    <div class="bd-left">
+        <div class="main">
+            <p>主内容栏自适应宽度</p>
+        </div>
+        <div class="aside">
+            <p>侧边栏固定宽度</p>
+        </div>
+    </div>
+</body>
+
+</html>
