@@ -1,3 +1,7 @@
 {
-    "type": "module"
+    "name": "@kidwen/sample",
+    "type": "module",
+    "version": "0.0.1",
+    "author": "kidwen",
+    "license": "ISC"
 }
