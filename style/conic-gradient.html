@@ -7,15 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        body {
-            height: 100vh;
+        h3 {
+            text-align: center;
+        }
+
+        .content {
+            height: calc(100vh - 72.44px);
             overflow-y: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        div {
+        .conic {
             width: 100px;
             height: 100px;
             border-radius: 50%;
@@ -26,7 +30,10 @@
 </head>
 
 <body>
-    <div></div>
+    <h3>饼状图</h3>
+    <div class="content">
+        <div class="conic"></div>
+    </div>
 </body>
 
 </html>
