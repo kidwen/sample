@@ -14,7 +14,6 @@ function check(a, b) {
 console.log("function1", check("aeebffcss", "abc"));
 
 function check2(a, b) {
-    // let start =
     if (!a || !b || a.length < b.length) {
         return false;
     }
@@ -30,4 +29,4 @@ function check2(a, b) {
     return true;
 }
 
-console.log("function2", check("aeebffcss", "abc"));
+console.log("function2", check2("aeebffcss", "abc"));
