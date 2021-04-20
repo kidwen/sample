@@ -1,22 +1,35 @@
-export class TypeCheck {
-    public user: UserOrPerson;
+export interface Padder {
+    getPaddingString(): string;
+}
 
-    public check(user: UserOrPerson): user is User {
-        return true;
+export class SpaceRepeatingPadder implements Padder {
+    public constructor(private numSpaces: number) { }
+    public getPaddingString(): string {
+        return Array(this.numSpaces + 1).join(" ");
     }
 }
 
-export type UserOrPerson = User | Person;
-
-export interface ResourceBase {
-    id: string;
+export class StringPadder implements Padder {
+    public constructor(private value: string) { }
+    public getPaddingString(): string {
+        return this.value;
+    }
 }
 
-export interface User extends ResourceBase {
-    name?: string;
+export function getRandomPadder(): SpaceRepeatingPadder | StringPadder {
+    return Math.random() < 0.5
+        ? new SpaceRepeatingPadder(4)
+        : new StringPadder("  ");
 }
 
+let padder: Padder = getRandomPadder();
 
-export interface Person extends ResourceBase {
-    age?: string;
+if (padder instanceof SpaceRepeatingPadder) {
+    console.log('padder instanceof SpaceRepeatingPadder', padder);
+    console.log(padder.getPaddingString());
+
+}
+if (padder instanceof StringPadder) {
+    console.log('padder instanceof StringPadder', padder);
+    console.log(padder.getPaddingString());
 }
