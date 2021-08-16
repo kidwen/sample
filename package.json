@@ -3,7 +3,6 @@
     "type": "commonjs",
     "version": "0.0.1",
     "author": "kidwen",
-    "license": "ISC",
     "dependencies": {},
     "devDependencies": {
         "ts-loader": "^9.0.1",
