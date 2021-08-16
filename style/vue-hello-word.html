@@ -51,28 +51,28 @@
     </div>
 
     <script>
-        var app = new Vue({
+        const app = new Vue({
             el: '#app',
             data: {
                 message: 'Hello Vue!',
             },
         });
 
-        var app2 = new Vue({
+        const app2 = new Vue({
             el: '#app-2',
             data: {
                 message: 'You loaded this page on ' + new Date().toLocaleString(),
             },
         });
 
-        var app3 = new Vue({
+        const app3 = new Vue({
             el: '#app-3',
             data: {
                 seen: true,
             },
         });
 
-        var app4 = new Vue({
+        const app4 = new Vue({
             el: '#app-4',
             data: {
                 todos: [{
@@ -85,7 +85,7 @@
             },
         });
 
-        var app5 = new Vue({
+        const app5 = new Vue({
             el: '#app-5',
             data: {
                 message: 'Hello Vue.js!',
@@ -97,8 +97,8 @@
             },
         });
 
-        var data = "Hello Vue!!2";
-        var app6 = new Vue({
+        const data = "Hello Vue!!2";
+        const app6 = new Vue({
             el: '#app-6',
             data,
         });
@@ -107,7 +107,7 @@
             props: ['todo'],
             template: '<li>{{ todo.text }}</li>',
         });
-        var app7 = new Vue({
+        const app7 = new Vue({
             el: '#app-7',
             data: {
                 groceryList: [{

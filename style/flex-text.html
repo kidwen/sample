@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>flex-text</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flex {
+            width: 300px;
+            display: flex;
+        }
+
+        .left, .right {
+            width: 50px;
+            border: none;
+            background-color: transparent;
+        }
+
+        .center {
+            width: calc(100% - 100px);
+            flex: 1 1 auto;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="flex">
+    <button class="left"> 🔼 </button>
+    <div class="center" title="this is a very very very long text"> this is a very very very long text</div>
+    <button class="right"> 🔽 </button>
+</div>
+</body>
+</html>
