@@ -3,6 +3,7 @@ function Person(name, no) {
     this.no = no;
     console.log(this);
 }
+
 // Person.prototype.toString = () => {
 //     return this.name;
 // }
@@ -10,10 +11,10 @@ function Person(name, no) {
 //     return this.name;
 // }
 Person.prototype.toString = function () {
-    return this.name;
+    return `${this.no}-${this.name}`;
 };
 
-var originPerson = new Person("aa", "aa");
+const originPerson = new Person("kidwen", "001");
 
 function logName(person) {
     let name = "name:" + person;
