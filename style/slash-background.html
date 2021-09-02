@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>linear-gradient</title>
+    <title>斜线条纹背景图</title>
     <style>
         body {
             background: #243960;
@@ -13,13 +13,24 @@
 
         .container {
             margin: 200px auto;
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: 100px;
+            position: relative;
             background: linear-gradient(45deg,
                     rgba(0, 153, 68, .5) 0, rgba(0, 153, 68, .5) 25%, transparent 25%, transparent 50%,
                     rgba(0, 153, 68, .5) 50%, rgba(0, 153, 68, .5) 75%, transparent 75%, transparent);
-            background-size: 50px 50px;
+            background-size: 16px 16px;
         }
+
+        .container::after {
+            content: "占用中";
+            color: red;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+
     </style>
 </head>
 
