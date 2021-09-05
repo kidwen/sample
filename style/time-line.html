@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .main::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        .main::-webkit-scrollbar-track {
+            background: rgb(239, 239, 239);
+            border-radius: 2px;
+        }
+
+        .main::-webkit-scrollbar-thumb {
+            background: #bfbfbf;
+            border-radius: 10px;
+        }
+
+        .main::-webkit-scrollbar-thumb:hover {
+            background: #333;
+        }
+
+        .main::-webkit-scrollbar-corner {
+            background: #179a16;
+        }
+
+        .container {
+            width: 1150px;
+            height: 50px;
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            border-right: 1px solid red;
+            background-color: antiquewhite;
+        }
+
+        .hour {
+            height: 100%;
+            border-left: 1px solid red;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        .num {
+            width: 100%;
+            height: 50%;
+        }
+
+        .half-hour {
+            height: 50%;
+            width: 25px;
+            box-sizing: border-box;
+            border-right: 1px solid red;
+        }
+
+        .gray-color {
+            position: absolute;
+            width: calc(30px - 5px);
+            width: 24px;
+            height: 25px;
+            left: 1px;
+            bottom: 0;
+            background-color: aquamarine;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="container">
+            <div class="gray-color"></div>
+            <div class="hour">
+                <div class="num">1</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">2</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">3</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">4</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">5</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">6</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">7</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">8</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">9</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">10</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">11</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">12</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">13</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">14</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">15</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">16</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">17</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">18</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">19</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">20</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">21</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">22</div>
+                <div class="half-hour"></div>
+            </div>
+            <div class="hour">
+                <div class="num">23</div>
+                <div class="half-hour"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    function setPosition(time, length) {
+        let ele = document.getElementsByClassName('gray-color')[0];
+        let width = `${12.5 * length - 1}px`;
+        let left = `${12.5 * time + 1}px`;
+        ele.style.width = width;
+        ele.style.left = left;
+    }
+    setInterval(() => {
+        let time = Math.floor(Math.random() * 10);
+        let length = Math.floor(Math.random() * 50);
+        setPosition(time, length);
+    }, 1000)
+    // setPosition(1, 5);
+
+</script>
+
+</html>
