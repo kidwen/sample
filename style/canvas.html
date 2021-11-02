@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+
+<body onload="draw();">
+    <!-- 示例 -->
+    <canvas id="canvas"></canvas>
+    <script>
+        const demoCanvas = document.getElementById('canvas');
+        // 获取元素上下文
+        const demoCtx = demoCanvas.getContext('2d');
+        // 绘制-填充颜色
+        demoCtx.fillStyle = 'green';
+        // 绘制-位置左上角（10, 10）大小（150, 100）
+        demoCtx.fillRect(10, 10, 150, 100);
+    </script>
+
+    <!-- 基础用法 -->
+    <!-- 只有`width`和`height`两个属性并且可选默认值宽`300px`高`150px` -->
+    <canvas id="tutorial" width="150" height="150">
+        <!-- 当浏览器不支持`canvas`标签时显示下面内容 -->
+        <h3>当前浏览器不支持显示该内容</h3>
+    </canvas>
+    <script>
+        function draw() {
+            var baseCanvas = document.getElementById('tutorial');
+            if (baseCanvas.getContext) {
+                // 支持`canvas`浏览器执行此代码
+                var baseCtx = baseCanvas.getContext('2d');
+                baseCtx.fillStyle = 'rgb(200, 0, 0)';
+                baseCtx.fillRect(10, 10, 55, 50);
+                baseCtx.fillStyle = 'rgb(0, 0, 200, 0.5)';
+                baseCtx.fillRect(30, 30, 55, 50);
+            } else {
+                // 不支持`canvas`浏览器执行下面代码
+            }
+        }
+
+    </script>
+</body>
+
+</html>
