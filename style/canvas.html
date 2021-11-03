@@ -47,7 +47,23 @@
                 // 不支持`canvas`浏览器执行下面代码
             }
         }
+    </script>
 
+    <canvas id="triangle"></canvas>
+
+    <script>
+        function triangleDraw() {
+            let canvas = document.getElementById('triangle');
+            if (canvas.getContext) {
+                let ctx = canvas.getContext('2d');
+                ctx.beginPath();
+                ctx.moveTo(75, 50);
+                ctx.lineTo(100, 75);
+                ctx.lineTo(100, 25);
+                ctx.fill();
+            }
+        }
+        triangleDraw();
     </script>
 </body>
 
