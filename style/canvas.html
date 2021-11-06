@@ -16,7 +16,7 @@
 
 <body onload="draw();">
     <!-- 示例 -->
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" width="150" height="150"></canvas>
     <script>
         const demoCanvas = document.getElementById('canvas');
         // 获取元素上下文
@@ -24,7 +24,7 @@
         // 绘制-填充颜色
         demoCtx.fillStyle = 'green';
         // 绘制-位置左上角（10, 10）大小（150, 100）
-        demoCtx.fillRect(10, 10, 150, 100);
+        demoCtx.fillRect(10, 10, 100, 100);
     </script>
 
     <!-- 基础用法 -->
@@ -49,8 +49,7 @@
         }
     </script>
 
-    <canvas id="triangle"></canvas>
-
+    <canvas id="triangle" width="150" height="150"></canvas>
     <script>
         function triangleDraw() {
             let canvas = document.getElementById('triangle');
@@ -66,7 +65,7 @@
         triangleDraw();
     </script>
 
-    <canvas id="smeil"></canvas>
+    <canvas id="smeil" width="150" height="150"></canvas>
     <script>
         function smeilDraw() {
             let canvas = document.getElementById('smeil');
@@ -84,6 +83,26 @@
             }
         }
         smeilDraw();
+    </script>
+
+    <canvas id="quadraticCurve" width="150" height="150"></canvas>
+    <script>
+        function quadraticCurveDraw() {
+            let canvas = document.getElementById('quadraticCurve');
+            if (canvas.getContext) {
+                let ctx = canvas.getContext('2d');
+                ctx.beginPath();
+                ctx.moveTo(75, 25);
+                ctx.quadraticCurveTo(25, 25, 25, 62.5);
+                ctx.quadraticCurveTo(25, 100, 50, 100);
+                ctx.quadraticCurveTo(50, 120, 30, 125);
+                ctx.quadraticCurveTo(60, 120, 65, 100);
+                ctx.quadraticCurveTo(125, 100, 125, 62.5);
+                ctx.quadraticCurveTo(125, 25, 75, 25);
+                ctx.stroke();
+            }
+        }
+        quadraticCurveDraw();
     </script>
 </body>
 
