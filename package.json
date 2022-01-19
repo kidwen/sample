@@ -12,7 +12,8 @@
     "license": "WTFPL",
     "name": "@kidwen/sample",
     "scripts": {
-        "webpack": "yarn webpack-cli --mode development"
+        "webpack": "yarn webpack-cli --mode development",
+        "weakmapgc": "node --expose-gc ./javascript/weak-map-gc.js"
     },
     "type": "commonjs",
     "version": "0.0.1"
