@@ -12,12 +12,11 @@
     <div id="box" style="position: absolute;">First Box</div>
 </body>
 <script>
-    function animateIt(elementId) {
-        var elem = document.getElementById(elementId);
+    function animateIt() {
         var tick = 0;
         var timer = setInterval(function () {
             if (tick <= 100) {
-                elem.style.left = elem.style.top = tick + "px";
+                box.style.left = box.style.top = tick + "px";
                 tick++;
             } else {
                 clearInterval(timer);
@@ -25,7 +24,7 @@
         }, 10);
     }
 
-    animateIt('box');
+    animateIt();
 
 </script>
 
