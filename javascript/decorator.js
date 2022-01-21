@@ -1,8 +1,11 @@
 "use strict"
 
+/**
+ * class decorator
+ * @param {Class} target
+ * @returns {Class}
+ */
 function classDecorator(target) {
-    console.log(Reflect.getOwnPropertyDescriptor(target, 'value'));
-    target.prototype.writable = false;
     Object.defineProperty(target, '_', { value: {}, configurable: false, enumerable: false });
     return target;
 }
