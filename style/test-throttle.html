@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../javascript/throttle.js"></script>
+    <title>test throttle</title>
+</head>
+
+<body>
+    <button id="btn"></button>
+    <script>
+        function testThrottle(e, content) {
+            console.log(e, content);
+        }
+        var testThrottleFn = throttle(testThrottle, 1000);
+        document.onmousemove = function (e) {
+            testThrottleFn(e, 'throttle');
+        };
+    </script>
+</body>
+
+</html>
