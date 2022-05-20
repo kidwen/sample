@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>z-index</title>
+    <style>
+        .yellow {
+            background-color: aqua !important;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="yellow" style="width: 100vw; height: 200px;background-color: #fff000;position: absolute;display: flex;">
+        <div style="width: 100px;height: 100px;background-color: #ff00ff;z-index: 2001;position: fixed;"></div>
+    </div>
+    <div style="width: 100vw;height:100vh;position: fixed;left: 0;top: 0;opacity: 0.5;background-color: #000;z-index: 2000;"></div>
+</body>
+
+</html>
