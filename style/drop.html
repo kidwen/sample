@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drop</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        header,
+        footer {
+            width: 100vw;
+            height: 100px;
+        }
+
+        section {
+            flex: 1;
+            display: flex;
+        }
+
+        .left,
+        .right {
+            width: 150px;
+            background-color: white;
+        }
+
+        .center {
+            flex: 1;
+            margin: 0 20px;
+            background-color: aquamarine;
+        }
+
+        .layout {
+            border: 1px dashed gray;
+            margin: 2px;
+        }
+
+        p {
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header></header>
+    <section>
+        <div class="left">
+            <div id="p1" class="layout" draggable="true" ondragstart="dragstart_handler(event)">this is a draggable div</div>
+        </div>
+        <div id="target" class="center" ondragover="allowDrop(event)" ondrop="drop(event)">
+            <p>
+                put a draggable element
+            </p>
+        </div>
+        <div class="right"></div>
+    </section>
+    <footer></footer>
+
+    <script>
+        function dragstart_handler (ev) {
+            ev.dataTransfer.setData("application/my-app", ev.target.id);
+            ev.dataTransfer.effectAllowed = "move";
+        }
+        function allowDrop (ev) {
+            ev.preventDefault();
+            ev.dataTransfer.dropEffect = "move";
+        }
+        function drop (ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("application/my-app");
+            console.log(data);
+            var nodeCopy = document.getElementById(data).cloneNode(true);
+            nodeCopy.id = "newId"; /* We cannot use the same ID */
+            nodeCopy.textContent = nodeCopy.textContent + '---' + (Math.random() * 100).toFixed(0);
+            ev.target.appendChild(nodeCopy);
+        }
+    </script>
+</body>
+
+</html>
