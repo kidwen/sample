@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .tile {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+
+        .tile.selected {
+            background-color: green;
+        }
+
+    </style>
+</head>
+
+<body>
+    <section class="wrapper">
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+    </section>
+    <section class="wrapper">
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+    </section>
+    <section class="wrapper">
+        <div class="tile"></div>
+        <div class="tile"></div>
+        <div class="tile"></div>
+    </section>
+
+    <script>
+        const className = 'tile'
+        const numberOfTile = document.querySelectorAll('.' + className).length;
+        function setClickListeners() {
+            const list = [];
+            document.addEventListener('click', function () {
+                if (!event.target.classList.contains(className)) return;
+                if (list.includes(event.target)) return;
+                event.target.classList.add('selected');
+                list.push(event.target);
+                if (list.length === numberOfTile) {
+                    const interval = setInterval(() => {
+                        const tile = list.shift();
+                        tile.classList.remove('selected');
+                        if (list.length === 0) {
+                            clearInterval(interval);
+                        }
+                    }, 300);
+                }
+            });
+        }
+        setClickListeners();
+    </script>
+</body>
+
+</html>
