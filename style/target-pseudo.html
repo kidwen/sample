@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .cs-button {
+            display: block;
+            background-color: blueviolet;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+            width: 20%;
+            padding: 10px 0;
+        }
+
+        .cs-more-p,
+        [data-open=false] {
+            display: none;
+        }
+
+        :target~[data-open=true] {
+            display: none;
+        }
+
+        :target~.cs-more-p,
+        :target~[data-open=false] {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    文章内容，文章内容，文章内容，文章内容，文章内容，文章内容，文章内容，文章内容......
+    <div id="articleMore" hidden></div>
+    <a href="#articleMore" class="cs-button" data-open="true">阅读更多</a>
+    <p class="cs-more-p">更多文章内容，更多文章内容，更多文章内容，更多文章内容。</p>
+    <a href="##" class="cs-button" data-open="false">收起</a>
+</body>
+
+</html>
