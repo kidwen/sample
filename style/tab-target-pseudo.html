@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab</title>
+    <style>
+        .cs-tab-li {
+            display: inline-block;
+            background-color: #f0f0f0;
+            color: #333333;
+            padding: 5px 10px;
+            text-decoration: none;
+        }
+
+        .cs-tab-anchor-2:not(:target)+ :not(:target)~.cs-tab .cs-tab-li:first-child,
+        .cs-tab-anchor-2:target~.cs-tab .cs-tab-li:nth-of-type(2),
+        .cs-tab-anchor-3:target~.cs-tab .cs-tab-li:nth-of-type(3) {
+            background-color: darkblue;
+            color: #ffffff;
+        }
+
+        .cs-panel-li {
+            display: none;
+            padding: 20px;
+            border: 1px solid #cccccc;
+        }
+
+        .cs-tab-anchor-2:not(:target)+ :not(:target)~.cs-panel .cs-panel-li:first-child,
+        .cs-tab-anchor-2:target~.cs-panel .cs-panel-li:nth-of-type(2),
+        .cs-tab-anchor-3:target~.cs-panel .cs-panel-li:nth-of-type(3) {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="cs-tab-x">
+        <!-- 锚链元素 -->
+        <i id="tabPanel2" class="cs-tab-anchor-2" hidden></i>
+        <i id="tabPanel3" class="cs-tab-anchor-3" hidden></i>
+        <!-- 以下 HTML 为标准选项卡 DOM 结构 -->
+        <div class="cs-tab">
+            <a href="#tabPanel1" class="cs-tab-li">选项卡1</a>
+            <a href="#tabPanel2" class="cs-tab-li">选项卡2</a>
+            <a href="#tabPanel3" class="cs-tab-li">选项卡3</a>
+        </div>
+        <div class="cs-panel">
+            <div class="cs-panel-li">面板内容 1</div>
+            <div class="cs-panel-li">面板内容 2</div>
+            <div class="cs-panel-li">面板内容 3</div>
+        </div>
+    </div>
+</body>
+
+</html>
