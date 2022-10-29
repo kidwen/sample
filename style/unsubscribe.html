@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unsubscribe</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+            overflow: hidden;
+        }
+
+        .section {
+            background-color: white;
+            width: 50%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .section>div {
+            text-align: center;
+        }
+
+        .section>div+div {
+            margin-top: 10px;
+        }
+
+        .confirm_button {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #cccccc;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        @media screen and (max-width: 900px) {
+            .section {
+                width: 80%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <section class="section confirm_content" id="confirmSection">
+        <div class="confirm_title">确定要退订吗？</div>
+        <div class="confirm_button" id="confirmButton">
+            确定
+        </div>
+    </section>
+    <section class="section result_content" style="display: none;" id="resultSection">
+        退订成功！
+    </section>
+</body>
+<script type="text/javascript">
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', '')
+    xhr.send()
+    xhr.onreadystatechange = function () {
+
+    }
+    window.onload = function () {
+        confirmButton.addEventListener('click', function () {
+            confirmSection.style.display = 'none'
+            resultSection.style.display = 'block'
+        })
+    }
+</script>
+
+</html>
