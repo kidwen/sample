@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/node_modules/qr-image/lib/qr.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <img src="" id="img"/>
+    <script>
+
+        var png_string = qr_image_sync('I love QR!');
+        img.src = png_string
+    </script>
+</body>
+
+</html>
