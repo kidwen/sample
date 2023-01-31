@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center</title>
+    <style>
+        .content {
+            width: 100%;
+            height: 200px;
+            background-color: #666;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .content::before {
+            content: '';
+            border: 1px dashed #333;
+            width: 100%;
+            position: absolute;
+            top: 99px;
+            z-index: 100;
+        }
+
+        .content::after {
+            content: '';
+            border: 1px dashed #333;
+            height: 100%;
+            position: absolute;
+            left: calc(50% - 1px);
+        }
+
+        .item {
+            display: block;
+            width: 100px;
+            height: 100px;
+            background-color: #aaa
+            ;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table .item {
+            width: auto;
+            height: auto;
+            display: table;
+            margin: auto;
+            vertical-align: middle;
+        }
+
+        .absolute.margin .item {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+
+        .absolute.transform .item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    </style>
+</head>
+
+<body>
+    <section class="content flex">
+        <div class="item"></div>
+    </section>
+    <section class="content table">
+        <div class="item">👻✨</div>
+    </section>
+    <section class="content absolute margin">
+        <div class="item"></div>
+    </section>
+    <section class="content absolute transform">
+        <div class="item"></div>
+    </section>
+</body>
+
+</html>
