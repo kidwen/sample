@@ -5,6 +5,7 @@
         "socket.io-client": "^4.3.2"
     },
     "devDependencies": {
+        "http-server": "^14.1.1",
         "ts-loader": "^9.0.1",
         "typescript": "^4.2.4",
         "webpack": "^5.34.0",
@@ -14,8 +15,9 @@
     "name": "@kidwen/sample",
     "scripts": {
         "webpack": "yarn webpack-cli --mode development",
-        "weakmapgc": "node --expose-gc ./javascript/weak-map-gc.js"
+        "weakmapgc": "node --expose-gc ./javascript/weak-map-gc.js",
+        "start": "yarn http-server style"
     },
-    "type": "commonjs",
+    "type": "module",
     "version": "0.0.1"
 }
