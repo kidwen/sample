@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MutationObserver</title>
+    <style>
+        ol {
+            border: 1px dashed #999999;
+        }
+
+    </style>
+</head>
+
+<body>
+    <ol contenteditable="true" id="ol">
+        <li>this is a li</li>
+    </ol>
+    <script>
+        const config = {
+            attributes: true, // 监听属性变化
+            attributeOldValue: true,
+            childList: true, // 监听子节点添加/删除
+            characterData: true, // 监听子节点字符数据是否更改
+            characterDataOldValue: true,
+            subtree: true, // 监听根节点以及所有子节点
+        };
+        const callback = (mutationList, observer) => {
+            console.log(mutationList, mutationList[0].type);
+            mutationList.forEach(mutation => {
+                if (mutation.type === 'childList') {
+                    const listValue = Array.from(ol.children).map(node => node.innerHTML).filter(html => html !== '<br>')
+                    console.log(listValue);
+                }
+            });
+        };
+        const observer = new MutationObserver(callback);
+        observer.observe(ol, config)
+    </script>
+</body>
+
+</html>
