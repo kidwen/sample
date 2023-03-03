@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance</title>
+    <script>
+        try {
+            var perfData = [];
+            const po = new PerformanceObserver((entryList) => {
+                const entries = entryList.getEntries();
+                const lastEntry = entries[entries.length - 1]; // 优先取 renderTime，如果没有则取 loadTime
+                let lcp = lastEntry.renderTime || lastEntry.loadTime;
+                window.perfData.push({ 'LCP': lcp });
+            });
+            po.observe({ type: 'largest-contentful-paint' });
+        } catch (e) {
+            // Do nothing
+        }
+    </script>
+
+</head>
+
+<body>
+    <header id="header">this is a header</header>
+</body>
+
+</html>
