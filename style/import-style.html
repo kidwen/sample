@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@import</title>
+    <style>
+        @import url('https://developer.mozilla.org/static/css/main.fdb59623.css');
+        body {
+            padding: 0 30px;
+        }
+    </style>
+</head>
+<body>
+    <p>@import 和 link 的区别</p>
+    <ul>
+        <li>link 属于标签，@import是css语法</li>
+        <li>link 在页面加载时候就去加载，@import要等到页面下载完成才会去加载</li>
+        <li>@import 是css2.1提出的，IE5以上才能识别，link无此问题</li>
+        <li>当使用js去控制dom去改变样式的时候，只能使用link，因为@import不是dom可以控制的</li></li>
+    </ul>
+</body>
+</html>
