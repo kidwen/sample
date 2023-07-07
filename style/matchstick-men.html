@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>kid</title>
+        <style>
+            body {
+                background-color: #333;
+                display: flex;
+                align-items: center;
+                border-bottom: 1px solid #666;
+                height: 178px;
+                overflow: hidden;
+                justify-content: center;
+            }
+            .person {
+                display: inline-block;
+                position: absolute;
+                height: 67px;
+                width: 200px;
+                top: 100px;
+                animation: 1s ease-in-out 0s infinite alternate jumpTop;
+            }
+            .header {
+                width: 20px;
+                height: 20px;
+                background-color: #000;
+                border-radius: 50%;
+            }
+            .arm, .leg, .body {
+                width: 2px;
+                height: 25px;
+                background-color: #000;
+            }
+            .left {
+                position: absolute;
+                transform: rotate(45deg);
+            }
+            .right {
+                left: 20px;
+                position: absolute;
+                transform: rotate(-45deg);
+            }
+            .body {
+                position: absolute;
+                left: 10px;
+            }
+            .leg.left {
+                top: 42px;
+                left: 10px;
+                transform-origin: top right;
+                transform: rotate(15deg);
+                animation: 1s ease-in-out 0s infinite alternate jump;
+            }
+            .leg.right {
+                top: 42px;
+                left: 10px;
+                transform-origin: top left;
+                transform: rotate(-15deg);
+                animation: 1s ease-in-out 0s infinite alternate jumpRight;
+            }
+            @keyframes jump {
+                from {
+                    transform: rotate(15deg);
+                }
+
+                to {
+                    transform: rotate(45deg);
+                }
+            }
+            @keyframes jumpRight {
+                from {
+                    transform: rotate(-15deg);
+                }
+                to {
+                    transform: rotate(-45deg);
+                }
+            }
+            @keyframes jumpTop {
+                from {
+                    top: 120px;
+                }
+                to {
+                    top: 100px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <section class="person">
+            <div class="header"></div>
+            <div class="arm left"></div>
+            <div class="body"></div>
+            <div class="arm right"></div>
+            <div class="leg left"></div>
+            <div class="leg right"></div>
+        </section>
+    </body>
+</html>
