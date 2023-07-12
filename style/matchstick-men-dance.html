@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>dance</title>
+        <style>
+            body {
+                background-color: #333;
+                display: flex;
+                align-items: center;
+                border-bottom: 1px solid #666;
+                height: 178px;
+                overflow: hidden;
+                justify-content: center;
+            }
+            .person {
+                display: inline-block;
+                position: absolute;
+                height: 67px;
+                top: 100px;
+            }
+            .person-body {
+                animation: .5s linear 0s infinite alternate toRotate;
+            }
+            .header {
+                width: 20px;
+                height: 20px;
+                background-color: #000;
+                border-radius: 50%;
+            }
+            .arm, .leg, .body {
+                width: 2px;
+                height: 25px;
+                background-color: #000;
+            }
+            .left {
+                position: absolute;
+                transform: rotate(45deg);
+            }
+            .right {
+                left: 20px;
+                position: absolute;
+                transform: rotate(-45deg);
+            }
+            .body {
+                position: absolute;
+                left: 10px;
+            }
+            .arm.left {
+                left: 10px;
+                transform-origin: right top;
+                animation: 2s linear 0s infinite alternate armTop;
+            }
+            .arm.right {
+                left: 10px;
+                transform-origin: left top;
+                animation: 2s linear 0s infinite alternate armRightTop;
+            }
+            .leg.left {
+                top: 25px;
+                left: 10px;
+                transform-origin: top right;
+                transform: rotate(45deg);
+                animation: 2s linear 0s infinite alternate legTop;
+            }
+            .leg.right {
+                top: 25px;
+                left: 10px;
+                transform-origin: top left;
+                transform: rotate(0);
+            }
+            @keyframes armTop {
+                from {
+                    transform: rotate(45deg);
+                }
+                to {
+                    transform: rotate(135deg);
+                }
+            }
+            @keyframes legTop {
+                from {
+                    transform: rotate(0);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            @keyframes armRightTop {
+                from {
+                    transform: rotate(-45deg);
+                }
+                to {
+                    transform: rotate(-135deg);
+                }
+            }
+            @keyframes jumpRight {
+                from {
+                    transform: rotate(-15deg);
+                }
+                to {
+                    transform: rotate(-45deg);
+                }
+            }
+            @keyframes toRotate {
+                from {
+                    transform: rotateY(360deg);
+                }
+                to {
+                    transform: rotateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <section class="person">
+            <div class="header"></div>
+            <div class="person-body">
+                <div class="arm left"></div>
+                <div class="body"></div>
+                <div class="arm right"></div>
+                <div class="leg left"></div>
+                <div class="leg right"></div>
+            </div>
+        </section>
+    </body>
+</html>
