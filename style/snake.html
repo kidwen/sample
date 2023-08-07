@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐍</title>
+    <style>
+        body {
+            --white: #aaa;
+            --black: #000;
+            background: var(--black);
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #wrap {
+            width: 600px;
+            height: 600px;
+            border: 1px solid var(--white);
+            border-bottom: none;
+            border-right: none;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .table-item {
+            border-bottom: 1px solid var(--white);
+            border-right: 1px solid var(--white);
+            width: 9px;
+            height: 9px;
+        }
+
+        .snake-item {
+            width: 9px;
+            height: 9px;
+            background-color: var(--white);
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+
+    </div>
+    <script>
+        const snake = {
+            data: [
+                {
+                    x: 2,
+                    y: 0,
+                },
+                {
+                    x: 1,
+                    y: 0,
+                },
+                {
+                    x: 0,
+                    y: 0,
+                },
+            ],
+            direction: 'right',
+            timer: undefined,
+            timeout: 100,
+            gameOver: false,
+            resetSake: function () {
+                for (let index = 0; index < this.data.length; index++) {
+                    const item = this.data[index];
+                    item.dom.remove();
+                }
+                this.data = [
+                    {
+                        x: 2,
+                        y: 0,
+                    },
+                    {
+                        x: 1,
+                        y: 0,
+                    },
+                    {
+                        x: 0,
+                        y: 0,
+                    },
+                ];
+                this.timer && clearInterval(this.timer);
+            },
+            init: function () {
+                for (let index = 0; index < this.data.length; index++) {
+                    const item = document.createElement('div');
+                    item.setAttribute('class', 'snake-item');
+                    item.style = `left: ${this.data[index].x * 10}px;top: ${this.data[index].y * 10}px;`;
+                    wrap.appendChild(item);
+                    this.data[index].dom = item;
+                }
+            },
+            start: function () {
+                this.gameOver = false;
+                this.timer && clearInterval(this.timer);
+                this.timer = setInterval(() => {
+                    this.move();
+                }, this.timeout);
+            },
+            move: function () {
+                const last = this.data.pop();
+                if (this.direction === 'right') {
+                    last.x = this.data[0].x + 1;
+                    last.y = this.data[0].y;
+                }
+                if (this.direction === 'left') {
+                    last.x = this.data[0].x - 1;
+                    last.y = this.data[0].y;
+                }
+                if (this.direction === 'top') {
+                    last.x = this.data[0].x;
+                    last.y = this.data[0].y - 1;
+                }
+                if (this.direction === 'bottom') {
+                    last.x = this.data[0].x;
+                    last.y = this.data[0].y + 1;
+                }
+                if (!this.checkLive()) {
+                    this.data.unshift(last);
+                    this.resetSake();
+                    this.gameOver = true;
+                    return;
+                }
+                this.data.unshift(last);
+                this.setDomStyle(last);
+            },
+            setDomStyle: function (item) {
+                item.dom.style = `left: ${item.x * 10}px;top: ${item.y * 10}px;`;
+            },
+            checkLive: function () {
+                if (this.data[0].x === 59 || this.data[0].y === 59 || this.data[0].x < 0 || this.data[0].y < 0) {
+                    return false;
+                }
+                // TODO: 检查是否自身重叠
+                return true;
+            }
+        };
+        (function initBackground() {
+            for (let index = 0; index < 60 * 60; index++) {
+                const item = document.createElement('div');
+                item.setAttribute('class', 'table-item');
+                wrap.appendChild(item);
+            }
+        })();
+        (function initSnake() {
+            snake.init();
+            snake.start();
+        })();
+        window.onkeydown = function (e) {
+            if(e.key) {
+                // ArrowDown ArrowUp ArrowLeft ArrowRight
+                if(e.key === 'ArrowDown' && snake.direction !== 'top') {
+                    snake.direction = 'bottom';
+                }
+                if(e.key === 'ArrowUp' && snake.direction !== 'bottom') {
+                    snake.direction = 'top';
+                }
+                if(e.key === 'ArrowLeft' && snake.direction !== 'right') {
+                    snake.direction = 'left';
+                }
+                if(e.key === 'ArrowRight' && snake.direction !== 'left') {
+                    snake.direction = 'right';
+                }
+                // snake.move();
+                if(snake.gameOver) {
+                    snake.init();
+                    snake.start();
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
