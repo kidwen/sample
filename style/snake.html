@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>🐍</title>
     <style>
         body {
@@ -42,15 +42,15 @@
             background-color: var(--white);
             position: absolute;
         }
-
     </style>
 </head>
 
 <body>
-    <div id="wrap"></div>
+    <div id='wrap'></div>
     <script>
         const snake = {
-            data: [{
+            data: [
+                {
                     x: 10,
                     y: 0,
                 },
@@ -95,7 +95,7 @@
                     y: 0,
                 },
             ],
-            direction: "right",
+            direction: 'right',
             timer: undefined,
             timeout: 100,
             gameOver: false,
@@ -104,7 +104,8 @@
                     const item = this.data[index];
                     item.dom.remove();
                 }
-                this.data = [{
+                this.data = [
+                    {
                         x: 10,
                         y: 0,
                     },
@@ -153,10 +154,9 @@
             },
             init: function () {
                 for (let index = 0; index < this.data.length; index++) {
-                    const item = document.createElement("div");
-                    item.setAttribute("class", "snake-item");
-                    item.style = `left: ${this.data[index].x * 10}px;top: ${this.data[index].y * 10
-            }px;`;
+                    const item = document.createElement('div');
+                    item.setAttribute('class', 'snake-item');
+                    item.style = `left: ${this.data[index].x * 10}px;top: ${this.data[index].y * 10}px;`;
                     wrap.appendChild(item);
                     this.data[index].dom = item;
                 }
@@ -170,19 +170,19 @@
             },
             move: function () {
                 const last = this.data.pop();
-                if (this.direction === "right") {
+                if (this.direction === 'right') {
                     last.x = this.data[0].x + 1;
                     last.y = this.data[0].y;
                 }
-                if (this.direction === "left") {
+                if (this.direction === 'left') {
                     last.x = this.data[0].x - 1;
                     last.y = this.data[0].y;
                 }
-                if (this.direction === "top") {
+                if (this.direction === 'top') {
                     last.x = this.data[0].x;
                     last.y = this.data[0].y - 1;
                 }
-                if (this.direction === "bottom") {
+                if (this.direction === 'bottom') {
                     last.x = this.data[0].x;
                     last.y = this.data[0].y + 1;
                 }
@@ -200,8 +200,7 @@
                 this.setDomStyle(last);
             },
             setDomStyle: function (item) {
-                item.dom.style = `left: ${item.x * 10}px;top: ${item.y * 10
-          }px;`;
+                item.dom.style = `left: ${item.x * 10}px;top: ${item.y * 10}px;`;
             },
             checkLive: function (nextLastItem) {
                 if (
@@ -220,14 +219,15 @@
             isCollide: function ({
                 x,
                 y
-            }) {
+            })
+            {
                 return !!this.data.some((item) => item.x === x && item.y === y);
             },
         };
         (function initBackground() {
             for (let index = 0; index < 60 * 60; index++) {
-                const item = document.createElement("div");
-                item.setAttribute("class", "table-item");
+                const item = document.createElement('div');
+                item.setAttribute('class', 'table-item');
                 wrap.appendChild(item);
             }
         })();
@@ -238,17 +238,17 @@
         window.onkeydown = function (e) {
             if (e.key) {
                 // ArrowDown ArrowUp ArrowLeft ArrowRight
-                if (e.key === "ArrowDown" && snake.direction !== "top") {
-                    snake.direction = "bottom";
+                if (e.key === 'ArrowDown' && snake.direction !== 'top') {
+                    snake.direction = 'bottom';
                 }
-                if (e.key === "ArrowUp" && snake.direction !== "bottom") {
-                    snake.direction = "top";
+                if (e.key === 'ArrowUp' && snake.direction !== 'bottom') {
+                    snake.direction = 'top';
                 }
-                if (e.key === "ArrowLeft" && snake.direction !== "right") {
-                    snake.direction = "left";
+                if (e.key === 'ArrowLeft' && snake.direction !== 'right') {
+                    snake.direction = 'left';
                 }
-                if (e.key === "ArrowRight" && snake.direction !== "left") {
-                    snake.direction = "right";
+                if (e.key === 'ArrowRight' && snake.direction !== 'left') {
+                    snake.direction = 'right';
                 }
                 // snake.move();
                 if (snake.gameOver) {
@@ -257,8 +257,5 @@
                 }
             }
         };
-
     </script>
 </body>
-
-</html>
