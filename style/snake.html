@@ -6,6 +6,9 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>🐍</title>
     <style>
+        h2 {
+            color: #aaa;
+        }
         body {
             --white: #aaa;
             --black: #000;
@@ -17,6 +20,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             overflow: hidden;
         }
 
@@ -64,38 +68,11 @@
 </head>
 
 <body>
+    <h2>Press any key to start.</h1>
     <div id='wrap'></div>
     <script>
         const snake = {
             data: [
-                {
-                    x: 10,
-                    y: 0,
-                },
-                {
-                    x: 9,
-                    y: 0,
-                },
-                {
-                    x: 8,
-                    y: 0,
-                },
-                {
-                    x: 7,
-                    y: 0,
-                },
-                {
-                    x: 6,
-                    y: 0,
-                },
-                {
-                    x: 5,
-                    y: 0,
-                },
-                {
-                    x: 4,
-                    y: 0,
-                },
                 {
                     x: 3,
                     y: 0,
@@ -118,7 +95,7 @@
             timer: undefined,
             moveTimeout: 50,
             removeFoodTimeout: 3000,
-            gameOver: false,
+            gameOver: true,
             resetSake: function () {
                 this.removeFoodTimer && clearInterval(this.removeFoodTimer);
                 this.timer && clearInterval(this.timer);
@@ -128,34 +105,6 @@
                     item.dom.remove();
                 }
                 this.data = [
-                    {
-                        x: 10,
-                        y: 0,
-                    },
-                    {
-                        x: 9,
-                        y: 0,
-                    },
-                    {
-                        x: 8,
-                        y: 0,
-                    },
-                    {
-                        x: 7,
-                        y: 0,
-                    },
-                    {
-                        x: 6,
-                        y: 0,
-                    },
-                    {
-                        x: 5,
-                        y: 0,
-                    },
-                    {
-                        x: 4,
-                        y: 0,
-                    },
                     {
                         x: 3,
                         y: 0,
@@ -306,11 +255,8 @@
                 wrap.appendChild(item);
             }
         })();
-        (function initSnake() {
-            snake.init();
-        })();
         window.onkeydown = function (e) {
-            if (e.key) {
+            if (e.key || e.code) {
                 if (e.key === 'ArrowDown' && snake.direction !== 'top') {
                     snake.direction = 'bottom';
                 }
@@ -323,7 +269,6 @@
                 if (e.key === 'ArrowRight' && snake.direction !== 'left') {
                     snake.direction = 'right';
                 }
-                // snake.move();
                 if (snake.gameOver) {
                     snake.init();
                 }
