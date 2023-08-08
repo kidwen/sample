@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang='en'>
 
-<head>
-    <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>🐍</title>
-    <style>
+    <head>
+        <meta charset='UTF-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <title>🐍</title>
+        <style>
         h2 {
             color: #aaa;
         }
@@ -65,46 +65,14 @@
             }
         }
     </style>
-</head>
+    </head>
 
-<body>
-    <h2>Press any key to start.</h1>
-    <div id='wrap'></div>
-    <script>
-        const snake = {
-            data: [
-                {
-                    x: 3,
-                    y: 0,
-                },
-                {
-                    x: 2,
-                    y: 0,
-                },
-                {
-                    x: 1,
-                    y: 0,
-                },
-                {
-                    x: 0,
-                    y: 0,
-                },
-            ],
-            food: [],
-            direction: 'right',
-            timer: undefined,
-            moveTimeout: 50,
-            removeFoodTimeout: 3000,
-            gameOver: true,
-            resetSake: function () {
-                this.removeFoodTimer && clearInterval(this.removeFoodTimer);
-                this.timer && clearInterval(this.timer);
-                this.removeAllFood();
-                for (let index = 0; index < this.data.length; index++) {
-                    const item = this.data[index];
-                    item.dom.remove();
-                }
-                this.data = [
+    <body>
+        <h2>Press any key to start.</h1>
+        <div id='wrap'></div>
+        <script>
+            const snake = {
+                data: [
                     {
                         x: 3,
                         y: 0,
@@ -121,160 +89,203 @@
                         x: 0,
                         y: 0,
                     },
-                ];
-                this.timer && clearInterval(this.timer);
-            },
-            createElement: function (className, position) {
-                const ele = document.createElement('div');
-                ele.setAttribute('class', className);
-                ele.style = `left: ${position.x}px;top: ${position.y}px;`;
-                wrap.appendChild(ele);
-                return ele;
-            },
-            init: function () {
-                this.gameOver = false;
-                this.direction = 'right';
-                for (let index = 0; index < this.data.length; index++) {
-                    const item = this.createElement('snake-item', {x: this.data[index].x * 10, y: this.data[index].y * 10 });
-                    this.data[index].dom = item;
-                }
-                this.start();
-            },
-            start: function () {
-                this.timer && clearInterval(this.timer);
-                this.timer = setInterval(() => {
-                    this.move();
-                }, this.moveTimeout);
-                this.randomFood();
-                this.removeFood();
-            },
-            randomFood: function () {
-                const x = parseInt(Math.random() * 59 + 0);
-                const y = parseInt(Math.random() * 59 + 0);
-                if (this.isCollide({x,y}) || this.isEated({x, y})) {
+                ],
+                food: [],
+                direction: 'right',
+                timer: undefined,
+                moveTimeout: 50,
+                removeFoodTimeout: 3000,
+                gameOver: true,
+                allowThrough: true,
+                resetSake: function () {
+                    this.removeFoodTimer && clearInterval(this.removeFoodTimer);
+                    this.timer && clearInterval(this.timer);
+                    this.removeAllFood();
+                    for (let index = 0; index < this.data.length; index++) {
+                        const item = this.data[index];
+                        item.dom.remove();
+                    }
+                    this.data = [
+                        {
+                            x: 3,
+                            y: 0,
+                        },
+                        {
+                            x: 2,
+                            y: 0,
+                        },
+                        {
+                            x: 1,
+                            y: 0,
+                        },
+                        {
+                            x: 0,
+                            y: 0,
+                        },
+                    ];
+                    this.timer && clearInterval(this.timer);
+                },
+                createElement: function (className, position) {
+                    const ele = document.createElement('div');
+                    ele.setAttribute('class', className);
+                    ele.style = `left: ${position.x}px;top: ${position.y}px;`;
+                    wrap.appendChild(ele);
+                    return ele;
+                },
+                init: function () {
+                    this.gameOver = false;
+                    this.direction = 'right';
+                    for (let index = 0; index < this.data.length; index++) {
+                        const item = this.createElement('snake-item', {x: this.data[index].x * 10, y: this.data[index].y * 10 });
+                        this.data[index].dom = item;
+                    }
+                    this.start();
+                },
+                start: function () {
+                    this.timer && clearInterval(this.timer);
+                    this.timer = setInterval(() => {
+                        this.move();
+                    }, this.moveTimeout);
                     this.randomFood();
-                    return;
-                }
-                const dom = this.createElement('food-item', {x: x * 10, y: y * 10});
-                this.food.push({x, y, dom});
-            },
-            removeAllFood: function () {
-                for (let index = 0; index < this.food.length; index++) {
-                    const item = this.food[index];
-                    item.dom.remove();
-                }
-            },
-            removeFood: function () {
-                this.removeFoodTimer && clearInterval(this.removeFoodTimer);
-                this.removeFoodTimer = setInterval(() => {
-                    if (this.food.length > 0) {
-                        this.food[0].dom.classList.add('fade');
-                        setTimeout(() => {
-                            this.food[0].dom.remove();
-                            this.food.shift();
-                            if (this.food.length === 0) {
-                                this.randomFood();
-                            }
-                        }, 2000);
-                    }
-                }, this.removeFoodTimeout);
-            },
-            move: function () {
-                let x, y;
-                if (this.direction === 'right') {
-                    x = this.data[0].x + 1;
-                    y = this.data[0].y;
-                }
-                if (this.direction === 'left') {
-                    x = this.data[0].x - 1;
-                    y = this.data[0].y;
-                }
-                if (this.direction === 'top') {
-                    x = this.data[0].x;
-                    y = this.data[0].y - 1;
-                }
-                if (this.direction === 'bottom') {
-                    x = this.data[0].x;
-                    y = this.data[0].y + 1;
-                }
-                if (this.isEated({x,y})) {
-                    const index = this.food.findIndex(item => item.x === x && item.y === y);
-                    if (index !== -1) {
-                        this.food[index].dom.remove();
+                    this.removeFood();
+                },
+                randomFood: function () {
+                    const x = parseInt(Math.random() * 59 + 0);
+                    const y = parseInt(Math.random() * 59 + 0);
+                    if (this.isCollide({x,y}) || this.isEated({x, y})) {
                         this.randomFood();
-                    }
-                    const item = this.createElement('snake-item', {x: x * 10, y: y * 10});
-                    this.data.unshift({x,y,dom:item});
-                } else {
-                    const last = this.data.pop();
-                    last.x = x;
-                    last.y = y;
-                    // if (this.isCollide(last)) {
-                    //     this.gameOver = true;
-                    //     return;
-                    // }
-                    if (!this.checkLive(last)) {
-                        this.data.unshift(last);
-                        this.resetSake();
-                        this.gameOver = true;
                         return;
                     }
-                    this.data.unshift(last);
-                    this.setDomStyle(last);
-                }
+                    const dom = this.createElement('food-item', {x: x * 10, y: y * 10});
+                    this.food.push({x, y, dom});
+                },
+                removeAllFood: function () {
+                    for (let index = 0; index < this.food.length; index++) {
+                        const item = this.food[index];
+                        item.dom.remove();
+                    }
+                },
+                removeFood: function () {
+                    this.removeFoodTimer && clearInterval(this.removeFoodTimer);
+                    this.removeFoodTimer = setInterval(() => {
+                        if (this.food.length > 0) {
+                            this.food[0].dom.classList.add('fade');
+                            setTimeout(() => {
+                                this.food[0].dom.remove();
+                                this.food.shift();
+                                if (this.food.length === 0) {
+                                    this.randomFood();
+                                }
+                            }, 2000);
+                        }
+                    }, this.removeFoodTimeout);
+                },
+                move: function () {
+                    let x, y;
+                    if (this.direction === 'right') {
+                        x = this.data[0].x + 1;
+                        y = this.data[0].y;
+                    }
+                    if (this.direction === 'left') {
+                        x = this.data[0].x - 1;
+                        y = this.data[0].y;
+                    }
+                    if (this.direction === 'top') {
+                        x = this.data[0].x;
+                        y = this.data[0].y - 1;
+                    }
+                    if (this.direction === 'bottom') {
+                        x = this.data[0].x;
+                        y = this.data[0].y + 1;
+                    }
+                    console.log(x, y);
+                    if (this.allowThrough) {
+                        if (x < 0){
+                            x = 59;
+                        }
+                        if (x > 59){
+                            x = 0;
+                        }
+                        if (y < 0) {
+                            y = 59;
+                        }
+                        if (y > 59) {
+                            y = 0;
+                        }
+                    }
+                    if (this.isEated({x,y})) {
+                        const index = this.food.findIndex(item => item.x === x && item.y === y);
+                        if (index !== -1) {
+                            this.food[index].dom.remove();
+                            this.randomFood();
+                        }
+                        const item = this.createElement('snake-item', {x: x * 10, y: y * 10});
+                        this.data.unshift({x,y,dom:item});
+                    } else {
+                        const last = this.data.pop();
+                        last.x = x;
+                        last.y = y;
+                        // if (this.isCollide(last)) {
+                        //     this.gameOver = true;
+                        //     return;
+                        // }
+                        if (!this.checkLive(last)) {
+                            this.data.unshift(last);
+                            this.resetSake();
+                            this.gameOver = true;
+                            return;
+                        }
+                        this.data.unshift(last);
+                        this.setDomStyle(last);
+                    }
 
-            },
-            setDomStyle: function (item) {
-                item.dom.style = `left: ${item.x * 10}px;top: ${item.y * 10}px;`;
-            },
-            checkLive: function (nextLastItem) {
-                if (
-                    this.data[0].x === 59 ||
-                    this.data[0].y === 59 ||
-                    this.data[0].x < 0 ||
-                    this.data[0].y < 0
-                ) {
-                    return false;
+                },
+                setDomStyle: function (item) {
+                    item.dom.style = `left: ${item.x * 10}px;top: ${item.y * 10}px;`;
+                },
+                checkLive: function (nextLastItem) {
+                    if (this.data[0].x === 60 || this.data[0].y === 60 || this.data[0].x < 0 || this.data[0].y < 0) {
+                        return false;
+                    }
+                    if (this.isCollide(nextLastItem)) {
+                        return false;
+                    }
+                    return true;
+                },
+                isCollide: function ({x, y}) {
+                    return !!this.data.some((item) => item.x === x && item.y === y);
+                },
+                isEated: function ({x, y}) {
+                    return !!this.food.some((item) => item.x === x && item.y === y);
+                },
+            };
+            (function initBackground() {
+                for (let index = 0; index < 60 * 60; index++) {
+                    const item = document.createElement('div');
+                    item.setAttribute('class', 'table-item');
+                    wrap.appendChild(item);
                 }
-                if (this.isCollide(nextLastItem)) {
-                    return false;
+            })();
+            window.onkeydown = function (e) {
+                if (e.key || e.code) {
+                    if (e.key === 'ArrowDown' && snake.direction !== 'top') {
+                        snake.direction = 'bottom';
+                    }
+                    if (e.key === 'ArrowUp' && snake.direction !== 'bottom') {
+                        snake.direction = 'top';
+                    }
+                    if (e.key === 'ArrowLeft' && snake.direction !== 'right') {
+                        snake.direction = 'left';
+                    }
+                    if (e.key === 'ArrowRight' && snake.direction !== 'left') {
+                        snake.direction = 'right';
+                    }
+                    if (snake.gameOver) {
+                        snake.init();
+                    }
                 }
-                return true;
-            },
-            isCollide: function ({x, y}) {
-                return !!this.data.some((item) => item.x === x && item.y === y);
-            },
-            isEated: function ({x, y}) {
-                return !!this.food.some((item) => item.x === x && item.y === y);
-            },
-        };
-        (function initBackground() {
-            for (let index = 0; index < 60 * 60; index++) {
-                const item = document.createElement('div');
-                item.setAttribute('class', 'table-item');
-                wrap.appendChild(item);
-            }
-        })();
-        window.onkeydown = function (e) {
-            if (e.key || e.code) {
-                if (e.key === 'ArrowDown' && snake.direction !== 'top') {
-                    snake.direction = 'bottom';
-                }
-                if (e.key === 'ArrowUp' && snake.direction !== 'bottom') {
-                    snake.direction = 'top';
-                }
-                if (e.key === 'ArrowLeft' && snake.direction !== 'right') {
-                    snake.direction = 'left';
-                }
-                if (e.key === 'ArrowRight' && snake.direction !== 'left') {
-                    snake.direction = 'right';
-                }
-                if (snake.gameOver) {
-                    snake.init();
-                }
-            }
-        };
-    </script>
-</body>
+            };
+        </script>
+    </body>
 
 </html>
