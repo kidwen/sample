@@ -12,6 +12,8 @@
             background: var(--black);
             height: 100vh;
             width: 100vw;
+            min-width: 640px;
+            min-height: 640px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -36,11 +38,27 @@
             height: 9px;
         }
 
-        .snake-item {
+        .snake-item, .food-item {
             width: 9px;
             height: 9px;
             background-color: var(--white);
             position: absolute;
+        }
+
+        .food-item.fade, .snake-item.fade {
+            animation: fade 400ms infinite;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -95,11 +113,16 @@
                     y: 0,
                 },
             ],
+            food: [],
             direction: 'right',
             timer: undefined,
-            timeout: 100,
+            moveTimeout: 50,
+            removeFoodTimeout: 3000,
             gameOver: false,
             resetSake: function () {
+                this.removeFoodTimer && clearInterval(this.removeFoodTimer);
+                this.timer && clearInterval(this.timer);
+                this.removeAllFood();
                 for (let index = 0; index < this.data.length; index++) {
                     const item = this.data[index];
                     item.dom.remove();
@@ -152,52 +175,105 @@
                 ];
                 this.timer && clearInterval(this.timer);
             },
+            createElement: function (className, position) {
+                const ele = document.createElement('div');
+                ele.setAttribute('class', className);
+                ele.style = `left: ${position.x}px;top: ${position.y}px;`;
+                wrap.appendChild(ele);
+                return ele;
+            },
             init: function () {
+                this.gameOver = false;
+                this.direction = 'right';
                 for (let index = 0; index < this.data.length; index++) {
-                    const item = document.createElement('div');
-                    item.setAttribute('class', 'snake-item');
-                    item.style = `left: ${this.data[index].x * 10}px;top: ${this.data[index].y * 10}px;`;
-                    wrap.appendChild(item);
+                    const item = this.createElement('snake-item', {x: this.data[index].x * 10, y: this.data[index].y * 10 });
                     this.data[index].dom = item;
                 }
+                this.start();
             },
             start: function () {
-                this.gameOver = false;
                 this.timer && clearInterval(this.timer);
                 this.timer = setInterval(() => {
                     this.move();
-                }, this.timeout);
+                }, this.moveTimeout);
+                this.randomFood();
+                this.removeFood();
             },
-            move: function () {
-                const last = this.data.pop();
-                if (this.direction === 'right') {
-                    last.x = this.data[0].x + 1;
-                    last.y = this.data[0].y;
-                }
-                if (this.direction === 'left') {
-                    last.x = this.data[0].x - 1;
-                    last.y = this.data[0].y;
-                }
-                if (this.direction === 'top') {
-                    last.x = this.data[0].x;
-                    last.y = this.data[0].y - 1;
-                }
-                if (this.direction === 'bottom') {
-                    last.x = this.data[0].x;
-                    last.y = this.data[0].y + 1;
-                }
-                // if (this.isCollide(last)) {
-                //   this.gameOver = true;
-                //   return;
-                // }
-                if (!this.checkLive(last)) {
-                    this.data.unshift(last);
-                    this.resetSake();
-                    this.gameOver = true;
+            randomFood: function () {
+                const x = parseInt(Math.random() * 59 + 0);
+                const y = parseInt(Math.random() * 59 + 0);
+                if (this.isCollide({x,y}) || this.isEated({x, y})) {
+                    this.randomFood();
                     return;
                 }
-                this.data.unshift(last);
-                this.setDomStyle(last);
+                const dom = this.createElement('food-item', {x: x * 10, y: y * 10});
+                this.food.push({x, y, dom});
+            },
+            removeAllFood: function () {
+                for (let index = 0; index < this.food.length; index++) {
+                    const item = this.food[index];
+                    item.dom.remove();
+                }
+            },
+            removeFood: function () {
+                this.removeFoodTimer && clearInterval(this.removeFoodTimer);
+                this.removeFoodTimer = setInterval(() => {
+                    if (this.food.length > 0) {
+                        this.food[0].dom.classList.add('fade');
+                        setTimeout(() => {
+                            this.food[0].dom.remove();
+                            this.food.shift();
+                            if (this.food.length === 0) {
+                                this.randomFood();
+                            }
+                        }, 2000);
+                    }
+                }, this.removeFoodTimeout);
+            },
+            move: function () {
+                let x, y;
+                if (this.direction === 'right') {
+                    x = this.data[0].x + 1;
+                    y = this.data[0].y;
+                }
+                if (this.direction === 'left') {
+                    x = this.data[0].x - 1;
+                    y = this.data[0].y;
+                }
+                if (this.direction === 'top') {
+                    x = this.data[0].x;
+                    y = this.data[0].y - 1;
+                }
+                if (this.direction === 'bottom') {
+                    x = this.data[0].x;
+                    y = this.data[0].y + 1;
+                }
+                if (this.isEated({x,y})) {
+                    const index = this.food.findIndex(item => item.x === x && item.y === y);
+                    if (index !== -1) {
+                        this.food[index].dom.remove();
+                        this.randomFood();
+                    }
+                    const item = this.createElement('snake-item', {x: x * 10, y: y * 10});
+                    this.data.unshift({x,y,dom:item});
+                } else {
+                    const last = this.data.pop();
+                    last.x = x;
+                    last.y = y;
+                    // if (this.isCollide(last)) {
+                    //     this.gameOver = true;
+                    //     return;
+                    // }
+                    if (!this.checkLive(last)) {
+                        this.data.unshift(last);
+                        this.resetSake();
+                        this.gameOver = true;
+                        return;
+                    }
+                    this.data.unshift(last);
+                    this.setDomStyle(last);
+                }
+
             },
             setDomStyle: function (item) {
                 item.dom.style = `left: ${item.x * 10}px;top: ${item.y * 10}px;`;
@@ -216,12 +292,11 @@
                 }
                 return true;
             },
-            isCollide: function ({
-                x,
-                y
-            })
-            {
+            isCollide: function ({x, y}) {
                 return !!this.data.some((item) => item.x === x && item.y === y);
+            },
+            isEated: function ({x, y}) {
+                return !!this.food.some((item) => item.x === x && item.y === y);
             },
         };
         (function initBackground() {
@@ -233,11 +308,9 @@
         })();
         (function initSnake() {
             snake.init();
-            snake.start();
         })();
         window.onkeydown = function (e) {
             if (e.key) {
-                // ArrowDown ArrowUp ArrowLeft ArrowRight
                 if (e.key === 'ArrowDown' && snake.direction !== 'top') {
                     snake.direction = 'bottom';
                 }
@@ -253,7 +326,6 @@
                 // snake.move();
                 if (snake.gameOver) {
                     snake.init();
-                    snake.start();
                 }
             }
         };
