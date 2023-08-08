@@ -106,6 +106,7 @@
                 allowThrough: true,
                 curStep: 0,
                 randomStep: parseInt(Math.random() * 30),
+                noDeath: true,
                 resetSake: function () {
                     this.removeFoodTimer && clearInterval(this.removeFoodTimer);
                     this.timer && clearInterval(this.timer);
@@ -274,7 +275,7 @@
                     if (this.data[0].x === 60 || this.data[0].y === 60 || this.data[0].x < 0 || this.data[0].y < 0) {
                         return false;
                     }
-                    if (this.isCollide(nextLastItem)) {
+                    if (this.isCollide(nextLastItem) && !this.noDeath) {
                         return false;
                     }
                     return true;
