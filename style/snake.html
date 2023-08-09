@@ -152,6 +152,10 @@
                         },
                     ];
                 },
+                clearAllInterval: function () {
+                    this.removeFoodTimer && clearInterval(this.removeFoodTimer);
+                    this.moveTimer && clearInterval(this.moveTimer);
+                },
                 start: function () {
                     this.moveTimer && clearInterval(this.moveTimer);
                     this.moveTimer = setInterval(() => {
@@ -259,6 +263,7 @@
                         //     return;
                         // }
                         if (!this.checkLive(last)) {
+                            this.clearAllInterval();
                             this.data.unshift(last);
                             this.gameOver = true;
                             this.snakeCorpse();
