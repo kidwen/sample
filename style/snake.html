@@ -162,7 +162,7 @@
                     this.moveTimer = setInterval(() => {
                         !this.gameOver && this.move();
                         this.noDeath && this.randomDirectionInRandomStep();
-                        this.autoEatFood();
+                        this.noDeath && this.autoEatFood();
                     }, this.moveTimeout);
                     this.randomFood();
                     this.removeFood();
@@ -312,33 +312,33 @@
                     // 根据距离确定下一个移动的方向
                     let nextDirection;
                     if (Math.abs(dx) > Math.abs(dy)) {
-                      nextDirection = dx > 0 ? 'right' : 'left';
+                        nextDirection = dx > 0 ? 'right' : 'left';
                     } else {
-                      nextDirection = dy > 0 ? 'bottom' : 'top';
+                        nextDirection = dy > 0 ? 'bottom' : 'top';
                     }
 
                     // 检查下一个移动的位置是否会导致碰撞
                     const nextMove = this.getNextMove(nextDirection);
                     if (!this.isCollide(nextMove)) {
-                      this.direction = nextDirection;
+                        this.direction = nextDirection;
                     }
-                  },
+                },
                 getNextMove(direction) {
-                  const head = this.data[0];
-                  let x = head.x;
-                  let y = head.y;
+                    const head = this.data[0];
+                    let x = head.x;
+                    let y = head.y;
 
-                  if (direction === 'right') {
-                    x++;
-                  } else if (direction === 'left') {
-                    x--;
-                  } else if (direction === 'bottom') {
-                    y++;
-                  } else if (direction === 'top') {
-                    y--;
-                  }
+                    if (direction === 'right') {
+                        x++;
+                    } else if (direction === 'left') {
+                        x--;
+                    } else if (direction === 'bottom') {
+                        y++;
+                    } else if (direction === 'top') {
+                        y--;
+                    }
 
-                  return { x, y };
+                    return { x, y };
                 }
             };
             (function initBackground() {
