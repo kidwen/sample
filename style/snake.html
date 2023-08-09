@@ -107,7 +107,7 @@
                 allowThrough: true,
                 curStep: 0,
                 randomStep: parseInt(Math.random() * 30),
-                noDeath: false,
+                noDeath: true,
                 createElement: function (className, position) {
                     const ele = document.createElement('div');
                     ele.setAttribute('class', className);
@@ -159,8 +159,8 @@
                 start: function () {
                     this.moveTimer && clearInterval(this.moveTimer);
                     this.moveTimer = setInterval(() => {
-                        // !this.gameOver && this.move();
-                        // this.noDeath && this.randomDirectionInRandomStep();
+                        !this.gameOver && this.move();
+                        this.noDeath && this.randomDirectionInRandomStep();
                         // this.autoEatFood();
                     }, this.moveTimeout);
                     this.randomFood();
