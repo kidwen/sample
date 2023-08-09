@@ -107,7 +107,7 @@
                 allowThrough: true,
                 curStep: 0,
                 randomStep: parseInt(Math.random() * 30),
-                noDeath: true,
+                noDeath: false,
                 createElement: function (className, position) {
                     const ele = document.createElement('div');
                     ele.setAttribute('class', className);
@@ -159,11 +159,12 @@
                 start: function () {
                     this.moveTimer && clearInterval(this.moveTimer);
                     this.moveTimer = setInterval(() => {
-                        !this.gameOver && this.move();
-                        this.noDeath && this.randomDirectionInRandomStep();
-                        this.noDeath && this.autoEatFood();
+                        // !this.gameOver && this.move();
+                        // this.noDeath && this.randomDirectionInRandomStep();
+                        // this.autoEatFood();
                     }, this.moveTimeout);
                     this.randomFood();
+                    this.autoEatFood();
                     this.removeFood();
                 },
                 randomFood: function () {
@@ -274,7 +275,6 @@
                         this.data.unshift(last);
                         this.setDomStyle(last);
                     }
-
                 },
                 setDomStyle: function (item) {
                     item.dom.style = `left: ${item.x * 10}px;top: ${item.y * 10}px;`;
@@ -302,25 +302,105 @@
                 },
                 autoEatFood() {
                     const head = this.data[0];
+                    // TODO: get the nearest food
                     const food = this.food[0];
-
-                    // 计算水平和垂直方向上的距离
-                    const dx = food.x - head.x;
-                    const dy = food.y - head.y;
-
-                    // 根据距离确定下一个移动的方向
-                    let nextDirection;
-                    if (Math.abs(dx) > Math.abs(dy)) {
-                        nextDirection = dx > 0 ? 'right' : 'left';
-                    } else {
-                        nextDirection = dy > 0 ? 'bottom' : 'top';
+                    // A*: F = G + H
+                    // TODO: no result
+                    const openList = [],
+                        closeList = [],
+                        result = [];
+                    let resultIndex;
+                    openList.push({x: head.x, y: head.y, G: 0});
+                    do {
+                        const currentPoint = openList.pop();
+                        closeList.push(currentPoint);
+                        let surroundPoint = this.surroundPoint(currentPoint);
+                        for (const i in surroundPoint) {
+                            const item = surroundPoint[i];
+                            // TODO: through wall?
+                            if (item.x >= 0 && item.y >=0 && item.x < 60 && item.y <= 60 && !this.existList(item, closeList) && !this.isCollide(item) && (!this.isCollide({x: item.x, y: currentPoint.y}) || !this.isCollide({x: currentPoint.x, y: item.y}))) {
+                                let g = currentPoint.G + 10;
+                                if (!this.existList(item, openList)) {
+                                    item['H'] = Math.abs(food.x - item.x) * 10 + Math.abs(food.y - item.y) * 10;
+                                    item['G'] = g;
+                                    item['parent'] = currentPoint;
+                                    openList.push(item);
+                                } else {
+                                    let index = this.existList(item, openList);
+                                    if (g < openList[index].G) {
+                                        openList[index].parent = currentPoint;
+                                        openList[index].G = g;
+                                        openList[index].F = g + openList[index].H;
+                                    }
+                                }
+                            }
+                        }
+                        if (openList.length === 0) {
+                            break;
+                        }
+                        openList.sort((a,b) => b.F - a.F);
+                    } while (!(resultIndex = this.existList({x: food.x,y: food.y}, openList)));
+                    console.log(openList[resultIndex]);
+                    // // 计算水平和垂直方向上的距离
+                    // const dx = food.x - head.x;
+                    // const dy = food.y - head.y;
+                    // // 根据距离确定下一个移动的方向
+                    // let nextDirection;
+                    // if (Math.abs(dx) > Math.abs(dy)) {
+                    //     nextDirection = dx > 0 ? 'right' : 'left';
+                    // } else {
+                    //     nextDirection = dy > 0 ? 'bottom' : 'top';
+                    // }
+                    // // 检查下一个移动的位置是否会导致碰撞
+                    // const nextMove = this.getNextMove(nextDirection);
+                    // if (!this.isCollide(nextMove)) {
+                    //     this.direction = nextDirection;
+                    // }
+                },
+                surroundPoint: function (point) {
+                    let x = point.x, y = point.y;
+                    return [
+                        // {
+                        //     x: x-1,
+                        //     y: y-1,
+                        // },
+                        {
+                            x: x-1,
+                            y: y,
+                        },
+                        // {
+                        //     x: x-1,
+                        //     y: y+1,
+                        // },
+                        {
+                            x: x,
+                            y: y-1,
+                        },
+                        {
+                            x: x,
+                            y: y+1,
+                        },
+                        // {
+                        //     x: x+1,
+                        //     y: y-1,
+                        // },
+                        {
+                            x: x+1,
+                            y: y,
+                        },
+                        // {
+                        //     x: x+1,
+                        //     y: y+1,
+                        // },
+                    ]
+                },
+                existList: function (point, list) {
+                    for(let i in list) {
+                        if(point.x === list[i].x && point.y == list[i].y) {
+                            return i;
+                        }
                     }
-
-                    // 检查下一个移动的位置是否会导致碰撞
-                    const nextMove = this.getNextMove(nextDirection);
-                    if (!this.isCollide(nextMove)) {
-                        this.direction = nextDirection;
-                    }
+                    return false;
                 },
                 getNextMove(direction) {
                     const head = this.data[0];
