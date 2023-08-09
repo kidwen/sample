@@ -124,6 +124,7 @@
                         this.data[index].dom = item;
                     }
                     this.start();
+                    this.autoEatFood();
                 },
                 resetSake: function () {
                     this.removeFoodTimer && clearInterval(this.removeFoodTimer);
@@ -161,6 +162,7 @@
                     this.moveTimer = setInterval(() => {
                         !this.gameOver && this.move();
                         this.noDeath && this.randomDirectionInRandomStep();
+                        this.autoEatFood();
                     }, this.moveTimeout);
                     this.randomFood();
                     this.removeFood();
@@ -250,6 +252,7 @@
                         const index = this.food.findIndex(item => item.x === x && item.y === y);
                         if (index !== -1) {
                             this.food[index].dom.remove();
+                            this.food.splice(index, 1);
                             this.randomFood();
                         }
                         const item = this.createElement('snake-item', {x: x * 10, y: y * 10});
@@ -298,6 +301,45 @@
                         item.dom && item.dom.classList.add('fade');
                     }
                 },
+                autoEatFood() {
+                    const head = this.data[0];
+                    const food = this.food[0];
+
+                    // 计算水平和垂直方向上的距离
+                    const dx = food.x - head.x;
+                    const dy = food.y - head.y;
+
+                    // 根据距离确定下一个移动的方向
+                    let nextDirection;
+                    if (Math.abs(dx) > Math.abs(dy)) {
+                      nextDirection = dx > 0 ? 'right' : 'left';
+                    } else {
+                      nextDirection = dy > 0 ? 'bottom' : 'top';
+                    }
+
+                    // 检查下一个移动的位置是否会导致碰撞
+                    const nextMove = this.getNextMove(nextDirection);
+                    if (!this.isCollide(nextMove)) {
+                      this.direction = nextDirection;
+                    }
+                  },
+                getNextMove(direction) {
+                  const head = this.data[0];
+                  let x = head.x;
+                  let y = head.y;
+
+                  if (direction === 'right') {
+                    x++;
+                  } else if (direction === 'left') {
+                    x--;
+                  } else if (direction === 'bottom') {
+                    y++;
+                  } else if (direction === 'top') {
+                    y--;
+                  }
+
+                  return { x, y };
+                }
             };
             (function initBackground() {
                 for (let index = 0; index < 60 * 60; index++) {
