@@ -6,71 +6,71 @@
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <title>🐍</title>
         <style>
-        h2 {
-            color: #aaa;
-        }
-        body {
-            --white: #aaa;
-            --gray: #333;
-            --black: #000;
-            background: var(--black);
-            height: 100vh;
-            width: 100vw;
-            min-width: 640px;
-            min-height: 640px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        #wrap {
-            width: 600px;
-            height: 600px;
-            border: 1px solid var(--gray);
-            border-bottom: none;
-            border-right: none;
-            display: flex;
-            flex-wrap: wrap;
-            position: relative;
-        }
-
-        .table-item {
-            border-bottom: 1px solid var(--gray);
-            border-right: 1px solid var(--gray);
-            width: 9px;
-            height: 9px;
-        }
-
-        .snake-item, .food-item {
-            width: 9px;
-            height: 9px;
-            background-color: var(--white);
-            position: absolute;
-        }
-
-        .food-item {
-            border-radius: 50%;
-            background-color: aquamarine;
-        }
-
-        .food-item.fade, .snake-item.fade {
-            animation: fade 400ms infinite;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: 1;
+            h2 {
+                color: #aaa;
             }
-            50% {
-                opacity: 0.5;
+            body {
+                --white: #aaa;
+                --gray: #333;
+                --black: #000;
+                background: var(--black);
+                height: 100vh;
+                width: 100vw;
+                min-width: 640px;
+                min-height: 640px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                overflow: hidden;
             }
-            to {
-                opacity: 1;
+
+            #wrap {
+                width: 600px;
+                height: 600px;
+                border: 1px solid var(--gray);
+                border-bottom: none;
+                border-right: none;
+                display: flex;
+                flex-wrap: wrap;
+                position: relative;
             }
-        }
-    </style>
+
+            .table-item {
+                border-bottom: 1px solid var(--gray);
+                border-right: 1px solid var(--gray);
+                width: 9px;
+                height: 9px;
+            }
+
+            .snake-item, .food-item {
+                width: 9px;
+                height: 9px;
+                background-color: var(--white);
+                position: absolute;
+            }
+
+            .food-item {
+                border-radius: 50%;
+                background-color: aquamarine;
+            }
+
+            .food-item.fade, .snake-item.fade {
+                animation: fade 400ms infinite;
+            }
+
+            @keyframes fade {
+                from {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.5;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+        </style>
     </head>
 
     <body>
@@ -99,7 +99,8 @@
                 ],
                 food: [],
                 direction: 'right',
-                timer: undefined,
+                moveTimer: undefined,
+                removeFoodTimer: undefined,
                 moveTimeout: 10,
                 removeFoodTimeout: 10000,
                 gameOver: true,
@@ -107,13 +108,30 @@
                 curStep: 0,
                 randomStep: parseInt(Math.random() * 30),
                 noDeath: true,
+                createElement: function (className, position) {
+                    const ele = document.createElement('div');
+                    ele.setAttribute('class', className);
+                    ele.style = `left: ${position.x}px;top: ${position.y}px;`;
+                    wrap.appendChild(ele);
+                    return ele;
+                },
+                init: function () {
+                    this.resetSake();
+                    this.gameOver = false;
+                    this.direction = 'right';
+                    for (let index = 0; index < this.data.length; index++) {
+                        const item = this.createElement('snake-item', {x: this.data[index].x * 10, y: this.data[index].y * 10 });
+                        this.data[index].dom = item;
+                    }
+                    this.start();
+                },
                 resetSake: function () {
                     this.removeFoodTimer && clearInterval(this.removeFoodTimer);
-                    this.timer && clearInterval(this.timer);
+                    this.moveTimer && clearInterval(this.moveTimer);
                     this.removeAllFood();
                     for (let index = 0; index < this.data.length; index++) {
                         const item = this.data[index];
-                        item.dom.remove();
+                        item.dom?.remove();
                     }
                     this.data = [
                         {
@@ -133,29 +151,12 @@
                             y: 0,
                         },
                     ];
-                    this.timer && clearInterval(this.timer);
-                },
-                createElement: function (className, position) {
-                    const ele = document.createElement('div');
-                    ele.setAttribute('class', className);
-                    ele.style = `left: ${position.x}px;top: ${position.y}px;`;
-                    wrap.appendChild(ele);
-                    return ele;
-                },
-                init: function () {
-                    this.gameOver = false;
-                    this.direction = 'right';
-                    for (let index = 0; index < this.data.length; index++) {
-                        const item = this.createElement('snake-item', {x: this.data[index].x * 10, y: this.data[index].y * 10 });
-                        this.data[index].dom = item;
-                    }
-                    this.start();
                 },
                 start: function () {
-                    this.timer && clearInterval(this.timer);
-                    this.timer = setInterval(() => {
-                        this.move();
-                        this.randomDirectionInRandomStep();
+                    this.moveTimer && clearInterval(this.moveTimer);
+                    this.moveTimer = setInterval(() => {
+                        !this.gameOver && this.move();
+                        this.noDeath && this.randomDirectionInRandomStep();
                     }, this.moveTimeout);
                     this.randomFood();
                     this.removeFood();
@@ -186,7 +187,7 @@
                                 this.food[0].dom.remove();
                                 this.food.shift();
                                 if (this.food.length === 0) {
-                                    this.randomFood();
+                                    !this.gameOver && this.randomFood();
                                 }
                             }, 2000);
                         }
@@ -259,8 +260,8 @@
                         // }
                         if (!this.checkLive(last)) {
                             this.data.unshift(last);
-                            this.resetSake();
                             this.gameOver = true;
+                            this.snakeCorpse();
                             return;
                         }
                         this.data.unshift(last);
@@ -286,6 +287,12 @@
                 isEated: function ({ x, y }) {
                     return !!this.food.some((item) => item.x === x && item.y === y);
                 },
+                snakeCorpse: function () {
+                    for (let index = 0; index < this.data.length; index++) {
+                        const item = this.data[index];
+                        item.dom && item.dom.classList.add('fade');
+                    }
+                },
             };
             (function initBackground() {
                 for (let index = 0; index < 60 * 60; index++) {
@@ -309,7 +316,9 @@
                     if ((e.key === 'ArrowRight' || e.key === 'd') && snake.direction !== 'left') {
                         snake.direction = 'right';
                     }
-                    if (snake.gameOver) {
+                    if (snake.gameOver || snake.noDeath) {
+                        snake.noDeath = false;
+                        snake.moveTimeout = 100;
                         snake.init();
                     }
                 }
