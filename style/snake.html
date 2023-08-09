@@ -228,10 +228,10 @@
                         y = this.data[0].y + 1;
                     }
                     if (this.allowThrough) {
-                        if (x < 0){
+                        if (x < 0) {
                             x = 59;
                         }
-                        if (x > 59){
+                        if (x > 59) {
                             x = 0;
                         }
                         if (y < 0) {
@@ -280,10 +280,10 @@
                     }
                     return true;
                 },
-                isCollide: function ({x, y}) {
+                isCollide: function ({ x, y }) {
                     return !!this.data.some((item) => item.x === x && item.y === y);
                 },
-                isEated: function ({x, y}) {
+                isEated: function ({ x, y }) {
                     return !!this.food.some((item) => item.x === x && item.y === y);
                 },
             };
@@ -297,16 +297,16 @@
             snake.init();
             window.onkeydown = function (e) {
                 if (e.key || e.code) {
-                    if (e.key === 'ArrowDown' && snake.direction !== 'top') {
+                    if ((e.key === 'ArrowDown' || e.key === 's') && snake.direction !== 'top') {
                         snake.direction = 'bottom';
                     }
-                    if (e.key === 'ArrowUp' && snake.direction !== 'bottom') {
+                    if ((e.key === 'ArrowUp' || e.key === 'w') && snake.direction !== 'bottom') {
                         snake.direction = 'top';
                     }
-                    if (e.key === 'ArrowLeft' && snake.direction !== 'right') {
+                    if ((e.key === 'ArrowLeft' || e.key === 'a') && snake.direction !== 'right') {
                         snake.direction = 'left';
                     }
-                    if (e.key === 'ArrowRight' && snake.direction !== 'left') {
+                    if ((e.key === 'ArrowRight' || e.key === 'd') && snake.direction !== 'left') {
                         snake.direction = 'right';
                     }
                     if (snake.gameOver) {
