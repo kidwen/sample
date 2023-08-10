@@ -78,15 +78,15 @@
         <div id='wrap'></div>
         <script>
             class Node {
-                constructor(x, y) {
-                  this.x = x;
-                  this.y = y;
-                  this.g = 0;
-                  this.h = 0;
-                  this.f = 0;
-                  this.parent = null;
+                    constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.g = 0;
+                    this.h = 0;
+                    this.f = 0;
+                    this.parent = null;
+                    }
                 }
-              }
             const dirs = ['left', 'top', 'bottom', 'right'];
             const snake = {
                 data: [
@@ -237,11 +237,11 @@
                     const dx = next.x - head.x;
                     const dy = next.y - head.y;
                     // 确定下一个移动的方向
-                      if (Math.abs(dx) > Math.abs(dy)) {
-                          this.direction = dx > 0 ? 'right' : 'left';
-                      } else {
-                        this.direction = dy > 0 ? 'bottom' : 'top';
-                      }
+                        if (Math.abs(dx) > Math.abs(dy)) {
+                            this.direction = dx > 0 ? 'right' : 'left';
+                        } else {
+                            this.direction = dy > 0 ? 'bottom' : 'top';
+                        }
                     }
 
                     this.curStep ++;
@@ -277,10 +277,11 @@
                         }
                     }
                     if (this.isEated({x,y})) {
+                        this.removeFoodTimer && clearInterval(this.removeFoodTimer);
                         const item = this.createElement('snake-item', {x: x * 10, y: y * 10});
                         this.data.unshift({x,y,dom:item});
                         const index = this.food.findIndex(item => item.x === x && item.y === y);
-                        
+
                         if (index !== -1) {
                             this.food[index].dom.remove();
                             this.food.splice(index, 1);
@@ -448,96 +449,96 @@
                     return { x, y };
                 },
                 getMovingPath() {
-                      const openList = [];
-                      const closedList = [];
+                    const openList = [];
+                    const closedList = [];
 
-                      const startNode = new Node(this.data[0].x, this.data[0].y);
-                      const endNode = new Node(this.food[0].x, this.food[0].y);
+                    const startNode = new Node(this.data[0].x, this.data[0].y);
+                    const endNode = new Node(this.food[0].x, this.food[0].y);
 
-                      openList.push(startNode);
+                    openList.push(startNode);
 
-                      while (openList.length > 0) {
-                        let currentNode = openList[0];
-                        let currentIndex = 0;
+                    while (openList.length > 0) {
+                    let currentNode = openList[0];
+                    let currentIndex = 0;
 
-                        // 找到f值最小的节点
-                        for (let i = 1; i < openList.length; i++) {
-                          if (openList[i].f < currentNode.f) {
-                            currentNode = openList[i];
-                            currentIndex = i;
-                          }
+                    // 找到f值最小的节点
+                    for (let i = 1; i < openList.length; i++) {
+                        if (openList[i].f < currentNode.f) {
+                        currentNode = openList[i];
+                        currentIndex = i;
                         }
-
-                        // 将当前节点从开放列表中移除，并加入到关闭列表中
-                        openList.splice(currentIndex, 1);
-                        closedList.push(currentNode);
-
-                        // 找到目标节点，构建路径并返回
-                        if (currentNode.x === endNode.x && currentNode.y === endNode.y) {
-                          const path = [];
-                          let current = currentNode;
-                          while (current !== null) {
-                            path.push({ x: current.x, y: current.y });
-                            current = current.parent;
-                          }
-                          return path.reverse();
-                        }
-
-                        // 相邻节点
-                        const directions = [
-                          { x: -1, y: 0 }, // 左
-                          { x: 1, y: 0 },  // 右
-                          { x: 0, y: -1 }, // 上
-                          { x: 0, y: 1 }   // 下
-                        ];
-
-                        for (let i = 0; i < directions.length; i++) {
-                          const direction = directions[i];
-                          const neighborX = currentNode.x + direction.x;
-                          const neighborY = currentNode.y + direction.y;
-
-                          // 检查是否超出边界或者是蛇身
-                          if (
-                            neighborX < 0 ||
-                            neighborY < 0 ||
-                            neighborX >= 60 ||
-                            neighborY >= 60 ||
-                            this.data.find(segment => segment.x === neighborX && segment.y === neighborY)
-                          ) {
-                            continue;
-                          }
-
-                          const neighbor = new Node(neighborX, neighborY);
-
-                          // 计算g、h、f值
-                          neighbor.g = currentNode.g + 1;
-                          neighbor.h = Math.abs(neighbor.x - endNode.x) + Math.abs(neighbor.y - endNode.y);
-                          neighbor.f = neighbor.g + neighbor.h;
-
-                          // 检查是否已经在关闭列表中
-                          if (closedList.find(node => node.x === neighbor.x && node.y === neighbor.y)) {
-                            continue;
-                          }
-
-                          // 检查是否已经在开放列表中
-                          const openNode = openList.find(node => node.x === neighbor.x && node.y === neighbor.y);
-                          if (openNode && neighbor.g >= openNode.g) {
-                            continue;
-                          }
-
-                          // 更新父节点
-                          neighbor.parent = currentNode;
-
-                          // 将节点加入开放列表
-                          if (!openNode) {
-                            openList.push(neighbor);
-                          }
-                        }
-                      }
-
-                      // 如果开放列表为空，表示无法找到路径
-                      return null;
                     }
+
+                    // 将当前节点从开放列表中移除，并加入到关闭列表中
+                    openList.splice(currentIndex, 1);
+                    closedList.push(currentNode);
+
+                    // 找到目标节点，构建路径并返回
+                    if (currentNode.x === endNode.x && currentNode.y === endNode.y) {
+                        const path = [];
+                        let current = currentNode;
+                        while (current !== null) {
+                        path.push({ x: current.x, y: current.y });
+                        current = current.parent;
+                        }
+                        return path.reverse();
+                    }
+
+                    // 相邻节点
+                    const directions = [
+                        { x: -1, y: 0 }, // 左
+                        { x: 1, y: 0 },  // 右
+                        { x: 0, y: -1 }, // 上
+                        { x: 0, y: 1 }   // 下
+                    ];
+
+                    for (let i = 0; i < directions.length; i++) {
+                        const direction = directions[i];
+                        const neighborX = currentNode.x + direction.x;
+                        const neighborY = currentNode.y + direction.y;
+
+                        // 检查是否超出边界或者是蛇身
+                        if (
+                        neighborX < 0 ||
+                        neighborY < 0 ||
+                        neighborX >= 60 ||
+                        neighborY >= 60 ||
+                        this.data.find(segment => segment.x === neighborX && segment.y === neighborY)
+                        ) {
+                        continue;
+                        }
+
+                        const neighbor = new Node(neighborX, neighborY);
+
+                        // 计算g、h、f值
+                        neighbor.g = currentNode.g + 1;
+                        neighbor.h = Math.abs(neighbor.x - endNode.x) + Math.abs(neighbor.y - endNode.y);
+                        neighbor.f = neighbor.g + neighbor.h;
+
+                        // 检查是否已经在关闭列表中
+                        if (closedList.find(node => node.x === neighbor.x && node.y === neighbor.y)) {
+                        continue;
+                        }
+
+                        // 检查是否已经在开放列表中
+                        const openNode = openList.find(node => node.x === neighbor.x && node.y === neighbor.y);
+                        if (openNode && neighbor.g >= openNode.g) {
+                        continue;
+                        }
+
+                        // 更新父节点
+                        neighbor.parent = currentNode;
+
+                        // 将节点加入开放列表
+                        if (!openNode) {
+                        openList.push(neighbor);
+                        }
+                    }
+                    }
+
+                    // 如果开放列表为空，表示无法找到路径
+                    return null;
+                }
             };
             (function initBackground() {
                 for (let index = 0; index < 60 * 60; index++) {
