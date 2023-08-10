@@ -189,7 +189,7 @@
                     this.food.push({x, y, dom});
                     // this.autoEatFood();
                     this.movingPath = this.getMovingPath();
-                    this.movingPath.shift();
+                    this.movingPath?.shift();
                 },
                 removeAllFood: function () {
                     for (let index = 0; index < this.food.length; index++) {
@@ -231,12 +231,12 @@
                 },
                 move: function () {
 
-                    if (this.movingPath.length > 0) {
-                    const head = this.data[0];
-                    const next = this.movingPath.shift();
-                    const dx = next.x - head.x;
-                    const dy = next.y - head.y;
-                    // 确定下一个移动的方向
+                    if (this.movingPath?.length > 0) {
+                        const head = this.data[0];
+                        const next = this.movingPath.shift();
+                        const dx = next.x - head.x;
+                        const dy = next.y - head.y;
+                        // 确定下一个移动的方向
                         if (Math.abs(dx) > Math.abs(dy)) {
                             this.direction = dx > 0 ? 'right' : 'left';
                         } else {
