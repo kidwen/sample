@@ -112,7 +112,7 @@
                 moveTimer: undefined,
                 removeFoodTimer: undefined,
                 moveTimeout: 10,
-                removeFoodTimeout: 10000,
+                removeFoodTimeout: 10,
                 gameOver: true,
                 allowThrough: true,
                 curStep: 0,
@@ -169,6 +169,7 @@
                 },
                 start: function () {
                     this.moveTimer && clearInterval(this.moveTimer);
+                    this.removeFoodTimeout = this.noDeath ? 10 : 6000;
                     this.moveTimer = setInterval(() => {
                         !this.gameOver && this.move();
                         this.noDeath && this.randomDirectionInRandomStep();
@@ -230,8 +231,7 @@
                     }
                 },
                 move: function () {
-
-                    if (this.movingPath?.length > 0) {
+                    if (this.movingPath?.length > 0 && this.noDeath) {
                         const head = this.data[0];
                         const next = this.movingPath.shift();
                         const dx = next.x - head.x;
