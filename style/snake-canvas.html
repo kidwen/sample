@@ -64,7 +64,7 @@
         function move() {
             const last = data[data.length - 1];
             setInterval(() => {
-                this.data.forEach(item => {
+                data.forEach(item => {
                     item.x++;
                     item.y++;
                     drawSnake(item.x, item.y);
