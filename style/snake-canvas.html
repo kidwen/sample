@@ -55,7 +55,9 @@
             for (const item of data) {
                 drawSnake(item.x, item.y);
             }
-            move();
+            setTimeout(() => {
+                move();
+            }, moveTimeout);
         }
         function drawSnake(x, y) {
             ctx.fillStyle = '#aaa';
@@ -64,6 +66,8 @@
         function move() {
             const last = data[data.length - 1];
             setInterval(() => {
+                // ctx.clearRect(0, 0, 300, 300);
+                ctx.reset();
                 data.forEach(item => {
                     item.x++;
                     item.y++;
