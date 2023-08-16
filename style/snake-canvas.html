@@ -25,76 +25,7 @@
 <body>
     <canvas id="snake" width="300" height="300"></canvas>
     <canvas id="snakeWrap" width="300" height="300"></canvas>
-    <script>
-        let wrapCtx;
-        let ctx;
-        if (snakeWrap.getContext) wrapCtx = snakeWrap.getContext('2d');
-        if (snake.getContext) ctx = snake.getContext('2d');
-        const moveTimeout = 1000;
-        const data = [
-            {
-                x: 3,
-                y: 0,
-            },
-            {
-                x: 2,
-                y: 0,
-            },
-            {
-                x: 1,
-                y: 0,
-            },
-            {
-                x: 0,
-                y: 0,
-            },
-        ];
-        function init() {
-            if (!wrapCtx || !ctx) return;
-            ctx.reset();
-            for (const item of data) {
-                drawSnake(item.x, item.y);
-            }
-            setTimeout(() => {
-                move();
-            }, moveTimeout);
-        }
-        function drawSnake(x, y) {
-            ctx.fillStyle = '#aaa';
-            ctx.fillRect(x * 10, y * 10, 10, 10);
-        }
-        function move() {
-            const last = data[data.length - 1];
-            setInterval(() => {
-                // ctx.clearRect(0, 0, 300, 300);
-                ctx.reset();
-                data.forEach(item => {
-                    item.x++;
-                    item.y++;
-                    drawSnake(item.x, item.y);
-                });
-            }, moveTimeout);
-        }
-
-        init();
-        (function () {
-            wrapCtx.strokeStyle = '#333';
-            for (let index = 0; index <= 30; index++) {
-                for (let direction = 0; direction < 2; direction++) {
-                    wrapCtx.beginPath();
-                    if (direction === 0) {
-                        wrapCtx.moveTo(0, index * 10);
-                        wrapCtx.lineTo(10 * 30, index * 10);
-                    } else {
-                        wrapCtx.moveTo(index * 10, 0);
-                        wrapCtx.lineTo(index * 10, 10 * 30);
-                    }
-                    wrapCtx.stroke();
-                }
-            }
-            wrapCtx.save();
-        })();
-    </script>
+    <script src="../javascript/snake-canvas.js"></script>
 </body>
 
 </html>
