@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Switch</title>
+    <style>
+        .switch {
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            width: 65px;
+            height: 20px;
+            border-radius: 20px;
+            position: relative;
+            padding: 5px;
+            font-size: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: all .3s ease-in;
+        }
+
+        .switch:checked {
+            background-color: #71b957;
+        }
+
+        .switch:checked::after {
+            background-color: #fff;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            position: absolute;
+            content: '';
+        }
+        .switch:checked::before {
+            position: absolute;
+            right: 5px;
+            content: 'OPENED';
+            line-height: 10px;
+        }
+
+        .switch:not(:checked) {
+            background-color: #e3463f;
+        }
+
+        .switch:not(:checked)::after {
+            background-color: #fff;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            position: absolute;
+            content: '';
+            right: 5px;
+            top: 5px;
+        }
+        .switch:not(:checked)::before {
+            position: absolute;
+            content: 'CLOSED';
+            line-height: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="checkbox" class="switch"/>
+</body>
+
+</html>
