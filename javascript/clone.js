@@ -11,3 +11,11 @@ function clone (value) {
     return value
   }
 }
+
+function copyTree(obj) {
+    return !obj ? obj :
+        isObject(obj) ? Object.keys(obj).reduce(function(copyObj, key) {
+            copyObj[key] = copyTree(obj[key]);
+            return copyObj;
+        }, {}) : Array.isArray(obj) ? obj.map(copyTree) : obj;
+}
