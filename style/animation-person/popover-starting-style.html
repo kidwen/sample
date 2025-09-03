@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@starting-style</title>
+    <style>
+        [popover] {
+            font-size: 1.2rem;
+            padding: 1rem;
+
+            opacity: 0;
+            transform: scaleX(0);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+
+            transition:
+                opacity 0.7s,
+                transform 0.7s,
+                overlay 0.7s allow-discrete,
+                display 0.7s allow-discrete;
+        }
+
+        [popover]:popover-open {
+            opacity: 1;
+            transform: scaleX(1);
+
+            @starting-style {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+        }
+
+        [popover]:popover-open::backdrop {
+            background-color: rgb(0 0 0 / 25%);
+
+            @starting-style {
+                background-color: transparent;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div popover="auto" id="myPopover">
+        popover content
+    </div>
+    <button popovertarget="myPopover">Display</button>
+</body>
+
+</html>
